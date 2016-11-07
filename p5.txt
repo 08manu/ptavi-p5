@@ -79,12 +79,12 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
  ** Si lanzamos el navegador web, por ejemplo, Mozilla Firefox, y vamos a la misma URL, ¿qué recibimos? ¿Qué es, entonces, lo que está respondiendo el servidor?
 
-    Una IP 212.128.254.159. El servidor está respondiendo con la IP con 83.36.48.212 porque lo que es un NAT. 
+    Una IP 212.128.254.159. El servidor está respondiendo con la IP con 83.36.48.212 por lo que es un NAT. 
 
 7. Hasta la trama 45 se puede observar una secuencia de tramas del protocolo STUN.
  ** ¿Por qué crees que se hace uso de este protocolo en esta captura? Busca en la Wikipedia.
 
-    Porque es un protocolo de red del tipo cliente/servidor que permite a clientes NAT encontrar su dirección IP pública, el tipo de NAT en el que se encuentra y el puerto de Internet asociado con el puerto local a través de NAT. Entonces observando la captura vemos que el STUN intenta cambiar la direccion IP y el puerto   
+    Porque es un protocolo de red del tipo cliente/servidor que permite a clientes NAT encontrar su dirección IP pública, el tipo de NAT en el que se encuentra y el puerto de Internet asociado con el puerto local a través de NAT. Entonces observando la captura vemos que el STUN intenta cambiar la direccion IP y el puerto.    
 
  ** ¿Estamos tras un NAT?
 
@@ -112,25 +112,61 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 9. Fijémonos en las tramas siguientes a la número 46:
  ** ¿Se registra con éxito en el primer intento?
+
+    No.
+
  ** ¿Cómo sabemos si el registro se ha realizado correctamente o no?
+
+    Porque en el caso de que no se haya realizado correctamente salta una trama SIP con 714 Status: 401 Unauthorized.        
+
  ** ¿Podrías identificar las diferencias entre el primer intento y el segundo de registro? (fíjate en el tamaño de los paquetes y mira a qué se debe el cambio)
+
+    En el primer intento no es posible realizar el REGISTER y en el segundo segundo se arealizar a través de la autorización Digest, por ello el segundo intento tiene mayor tamaño de paquete.
+
  ** ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica las unidades.
 
+    3600 segundos.
 
 10. Una vez registrados, podemos efectuar una llamada. Vamos a probar con el servicio de eco de Ekiga que nos permite comprobar si nos hemos conectado correctamente. El servicio de eco tiene la dirección sip:500@ekiga.net. Veamos el INVITE de cerca.
  ** ¿Puede verse el nombre del que efectúa la llamada, así como su dirección SIP?
+
+    El nombre del que efectúa la llamada es Gregorio Robles. Sip:grex@ekiga.net
+
  ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
+
+    La versión del protocolo((v):0), Creación de la sesion (o), Inofrmación de la conexión(c), Tiempo de descripción(t), Descripción de media, nombre y durección (m) y Atributos de media. El formato/protocolo es application/sdp.
+
  ** ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
+
+    No, no tiene exito. Porque necesita a autentificación del proxi: 744 Status: 407 Proxy Authentication Required.
+
  ** ¿En qué se diferencia el segundo INVITE más abajo del primero? ¿A qué crees que se debe esto?
 
+    El segundo INVITE tiene éxito, ya que, la trama contiene la autorización del proxy a través del método Digest.
 
 11. Una vez conectado, estudia el intercambio de tramas.
  ** ¿Qué protocolo(s) se utiliza(n)? ¿Para qué sirven estos protocolos?
- ** ¿Cuál es el tamaño de paquete de los mismos?
- ** ¿Se utilizan bits de padding?
- ** ¿Cuál es la periodicidad de los paquetes que se envían?
- ** ¿Cuántos bits/segundo estamos enviando?
 
+    Los protocolos que se utilizan son RTP, H.261 y RTCP. 
+    RTP se utiliza para la transmisión de información en tiempo real.
+    H.261 se utiliza para la codificación de video.
+    RTCP es el protocolo que porporciona información de control sobre la calidad de transmisión en tiempo real.
+
+ ** ¿Cuál es el tamaño de paquete de los mismos?
+
+    RTP tiene la misma el mismo tamaño de paquetes(214 bytes), en el caso de H.261 tiene tamaños de paquetes variables y RCTP mismo tamaño de paquete(43 bytes).
+
+ ** ¿Se utilizan bits de padding? 
+
+    No.
+
+ ** ¿Cuál es la periodicidad de los paquetes que se envían?
+
+    La periocidad es de 20ms por paquete.
+
+ ** ¿Cuántos bits/segundo estamos enviando?
+    
+    64kbits/seg.
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
