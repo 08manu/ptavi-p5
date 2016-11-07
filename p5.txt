@@ -203,7 +203,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
  ** Los valores de jitter son menores de 10ms hasta un paquete dado. ¿Cuál?
 
-    Hasta el 246.
+    En el 247.
 
  ** ¿A qué se debe el cambio tan brusco del jitter?
 
