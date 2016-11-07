@@ -277,7 +277,7 @@ Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.ne
 
  ** ¿Cuál es su periodicidad?
 
-    Su periocidad es de 0.02 segundos.
+    Su periocidad es de 20milisegungos.
     
  ** ¿Cuánto es el valor máximo del delta y los valores medios y máximo del jitter?
 
